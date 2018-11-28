@@ -8,12 +8,16 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text countText;
     public Text winText;
+    public AudioClip winSound;
+    public AudioClip pickupSound;
 
     private Rigidbody2D rb2d;
+    private new AudioSource audio;
     private int count;
 
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         rb2d = GetComponent<Rigidbody2D>();
         count = 0;
         winText.text = "";
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
             count = count + 1;
             SetCountText();
+            audio.Play();
         }
     }
 
@@ -43,6 +48,8 @@ public class PlayerController : MonoBehaviour {
         countText.text = "Count: " + count.ToString();
         if (count >= 12)
         {
+            audio.clip = winSound; // Credit to Windows for fanfare sound effect. Oh, and for the OS too, I guess.
+            audio.Play();
             winText.text = "You Win!";
         }
     }
